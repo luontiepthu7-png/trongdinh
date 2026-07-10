@@ -9,8 +9,8 @@ import { CATEGORIES, PRODUCTS, delay } from './mockData';
 // của ứng dụng (hooks, components) không cần thay đổi.
 // ---------------------------------------------------------------------------
 
-const USE_MOCK = true; // đổi thành false khi có API thật + cấu hình baseURL bên dưới
-const BASE_URL = 'https://api.example.com'; // thay bằng URL Backend thật khi có
+const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'false' ? false : true;
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 // Cấu hình axios instance với interceptor (khi dùng API thật):
 export const http = axios.create({
