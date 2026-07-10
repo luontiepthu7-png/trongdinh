@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learts Admin - Orders</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Route protection script runs before body loads -->
+  <script src="js/auth.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i class="fa-solid fa-gem"></i> Learts <span>Admin</span>
+        </div>
+      </div>
+      <nav class="sidebar-menu">
+        <li class="sidebar-menu-item">
+          <a href="/admin/products" class="sidebar-menu-link">
+            <i class="fa-solid fa-box"></i> Products
+          </a>
+        </li>
+        <li class="sidebar-menu-item active">
+          <a href="/admin/orders" class="sidebar-menu-link">
+            <i class="fa-solid fa-receipt"></i> Orders
+          </a>
+        </li>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="admin-profile">
+          <div class="admin-avatar" id="admin-avatar">AD</div>
+          <div class="admin-info">
+            <span class="admin-name" id="admin-name">Admin</span>
+            <span class="admin-role">Administrator</span>
+          </div>
+        </div>
+        <button class="logout-btn" id="logout-btn" title="Sign Out">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="content-header">
+        <div class="page-title">
+          <h1>Order Management</h1>
+          <p>Review customer transactions and update delivery fulfillment states</p>
+        </div>
+      </header>
+
+      <!-- Stats Summary -->
+      <section class="stats-grid">
+        <div class="card stat-card">
+          <div class="stat-icon primary">
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+          </div>
+          <div>
+            <div class="stat-value" id="stats-total-orders">0</div>
+            <div class="stat-label">Total Orders</div>
+          </div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-icon success">
+            <i class="fa-solid fa-circle-dollar-to-slot"></i>
+          </div>
+          <div>
+            <div class="stat-value" id="stats-total-revenue">$0.00</div>
+            <div class="stat-label">Total Revenue</div>
+          </div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-icon warning">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+          </div>
+          <div>
+            <div class="stat-value" id="stats-pending-orders">0</div>
+            <div class="stat-label">Pending Orders</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Orders Panel Card -->
+      <section class="card">
+        <!-- Orders Table -->
+        <div class="table-responsive">
+          <table class="custom-table" id="orders-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer Info</th>
+                <th>Items Ordered</th>
+                <th>Total Price</th>
+                <th>Date / Time</th>
+                <th>Status</th>
+                <th style="width: 100px; text-align: right;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="orders-list-body">
+              <tr>
+                <td colspan="7" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                  <i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> Loading orders...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Order Details Modal -->
+  <div class="modal-overlay" id="order-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title">Transaction Receipt Details</h3>
+        <button class="modal-close" id="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="order-details-grid">
+          <div class="order-info-block">
+            <h4>Customer Profile</h4>
+            <p id="detail-cust-name"></p>
+            <p id="detail-cust-phone"></p>
+          </div>
+          <div class="order-info-block">
+            <h4>Order Meta</h4>
+            <p id="detail-order-id"></p>
+            <p id="detail-order-date"></p>
+          </div>
+        </div>
+
+        <div class="order-info-block" style="margin-bottom: 24px;">
+          <h4>Shipping Address</h4>
+          <p id="detail-cust-address"></p>
+        </div>
+
+        <div class="order-info-block">
+          <h4 style="margin-bottom: 12px;">Items Breakdown</h4>
+          <div class="order-items-list" id="detail-items-list">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 18px; border-top: 1px solid #e2e8f0;">
+          <h3 style="font-size: 16px; font-weight: 700; color: var(--secondary);">Total Cost Paid:</h3>
+          <h2 style="font-size: 22px; font-weight: 700; color: var(--primary);" id="detail-total-amount"></h2>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="modal-close-bottom">Close Details</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Wrapper -->
+  <div class="toast-container"></div>
+
+  <!-- JavaScript logic -->
+  <script>
+    // State management
+    let orders = [];
+
+    // Elements
+    const ordersListBody = document.getElementById('orders-list-body');
+    const orderModal = document.getElementById('order-modal');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+    const modalCloseBottom = document.getElementById('modal-close-bottom');
+
+    // Stats elements
+    const statOrdersCount = document.getElementById('stats-total-orders');
+    const statRevenue = document.getElementById('stats-total-revenue');
+    const statPending = document.getElementById('stats-pending-orders');
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadOrders();
+
+      modalCloseBtn.addEventListener('click', closeDetailsModal);
+      modalCloseBottom.addEventListener('click', closeDetailsModal);
+    });
+
+    // 1. Fetch Orders from backend
+    async function loadOrders() {
+      ordersListBody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 40px; color: var(--text-muted);">
+            <i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> Loading orders...
+          </td>
+        </tr>
+      `;
+
+      try {
+        const response = await fetch('/api/orders', {
+          method: 'GET',
+          headers: getHeaders()
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          orders = result.data;
+          renderOrdersTable();
+          calculateStats();
+        } else {
+          showToast(result.message, 'error');
+          ordersListBody.innerHTML = `
+            <tr>
+              <td colspan="7" style="text-align: center; padding: 40px; color: var(--status-cancelled);">
+                Failed to load orders: ${result.message}
+              </td>
+            </tr>
+          `;
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Server connection failed', 'error');
+      }
+    }
+
+    // 2. Render Table rows
+    function renderOrdersTable() {
+      if (!orders || orders.length === 0) {
+        ordersListBody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align: center; padding: 40px; color: var(--text-muted);">
+              No transactions placed yet.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      ordersListBody.innerHTML = '';
+      orders.forEach(order => {
+        // Summarize items
+        const itemsSummary = order.items.map(item => `${item.name} (x${item.quantity})`).join(', ');
+        
+        // Format Date
+        const dateObj = new Date(order.createdAt);
+        const formattedDate = dateObj.toLocaleString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+
+        // Dropdown styling based on status selection
+        let statusStyle = '';
+        if (order.status === 'Pending') statusStyle = 'color: var(--status-pending); font-weight: bold; background-color: var(--status-pending-bg);';
+        if (order.status === 'Processing') statusStyle = 'color: var(--status-processing); font-weight: bold; background-color: var(--status-processing-bg);';
+        if (order.status === 'Completed') statusStyle = 'color: var(--status-completed); font-weight: bold; background-color: var(--status-completed-bg);';
+        if (order.status === 'Cancelled') statusStyle = 'color: var(--status-cancelled); font-weight: bold; background-color: var(--status-cancelled-bg);';
+
+        const tr = `
+          <tr>
+            <td>
+              <code style="background-color: var(--primary-light); color: var(--primary); padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+                #${order._id.substring(order._id.length - 8).toUpperCase()}
+              </code>
+            </td>
+            <td>
+              <strong>${order.customerName}</strong>
+              <div style="font-size: 12px; color: var(--text-muted);">${order.customerPhone}</div>
+            </td>
+            <td>
+              <div style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${itemsSummary}">
+                ${itemsSummary}
+              </div>
+            </td>
+            <td><strong style="color: var(--secondary);">$${order.totalAmount.toFixed(2)}</strong></td>
+            <td style="color: var(--text-muted); font-size: 13px;">${formattedDate}</td>
+            <td>
+              <select class="status-select" style="${statusStyle}" onchange="handleStatusChange('${order._id}', this)">
+                <option value="Pending" ${order.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                <option value="Processing" ${order.status === 'Processing' ? 'selected' : ''}>Processing</option>
+                <option value="Completed" ${order.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                <option value="Cancelled" ${order.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+              </select>
+            </td>
+            <td style="text-align: right;">
+              <button class="btn btn-outline btn-sm" onclick="openDetailsModal('${order._id}')">
+                <i class="fa-solid fa-eye"></i> View
+              </button>
+            </td>
+          </tr>
+        `;
+        ordersListBody.insertAdjacentHTML('beforeend', tr);
+      });
+    }
+
+    // 3. Compute stats metrics
+    function calculateStats() {
+      statOrdersCount.textContent = orders.length;
+
+      // Revenue sum excluding cancelled orders
+      const totalRevenue = orders
+        .filter(o => o.status !== 'Cancelled')
+        .reduce((sum, o) => sum + o.totalAmount, 0);
+      statRevenue.textContent = `$${totalRevenue.toFixed(2)}`;
+
+      // Count pending orders
+      const pendingCount = orders.filter(o => o.status === 'Pending').length;
+      statPending.textContent = pendingCount;
+    }
+
+    // 4. Update status in Database
+    async function handleStatusChange(orderId, selectEl) {
+      const originalStatus = orders.find(o => o._id === orderId).status;
+      const newStatus = selectEl.value;
+
+      try {
+        const response = await fetch(`/api/orders/${orderId}/status`, {
+          method: 'PUT',
+          headers: getHeaders(),
+          body: JSON.stringify({ status: newStatus })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showToast(`Order status updated to ${newStatus}`, 'success');
+          // Reload values
+          await loadOrders();
+        } else {
+          showToast(result.message || 'Failed to update order status', 'error');
+          // Revert select dropdown
+          selectEl.value = originalStatus;
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Server connection failed', 'error');
+        selectEl.value = originalStatus;
+      }
+    }
+
+    // Modal Helpers
+    function openDetailsModal(orderId) {
+      const order = orders.find(o => o._id === orderId);
+      if (!order) return;
+
+      document.getElementById('detail-cust-name').innerHTML = `<i class="fa-solid fa-user" style="color: var(--primary); margin-right: 8px;"></i> ${order.customerName}`;
+      document.getElementById('detail-cust-phone').innerHTML = `<i class="fa-solid fa-phone" style="color: var(--primary); margin-right: 8px;"></i> ${order.customerPhone}`;
+      document.getElementById('detail-order-id').innerHTML = `<strong>ID:</strong> #${order._id.toUpperCase()}`;
+      
+      const dateObj = new Date(order.createdAt);
+      document.getElementById('detail-order-date').innerHTML = `<strong>Placed:</strong> ${dateObj.toLocaleString()}`;
+      document.getElementById('detail-cust-address').innerHTML = `<i class="fa-solid fa-location-dot" style="color: var(--primary); margin-right: 8px;"></i> ${order.customerAddress}`;
+
+      // List Items
+      const itemsList = document.getElementById('detail-items-list');
+      itemsList.innerHTML = '';
+
+      order.items.forEach(item => {
+        const itemRow = `
+          <div class="order-item-row">
+            <span class="order-item-name">${item.name} <span class="order-item-qty">x${item.quantity}</span></span>
+            <span class="order-item-price">$${(item.price * item.quantity).toFixed(2)} <span style="font-size: 11px; font-weight: normal; color: var(--text-muted); margin-left: 4px;">($${item.price.toFixed(2)} ea)</span></span>
+          </div>
+        `;
+        itemsList.insertAdjacentHTML('beforeend', itemRow);
+      });
+
+      document.getElementById('detail-total-amount').textContent = `$${order.totalAmount.toFixed(2)}`;
+
+      orderModal.classList.add('active');
+    }
+
+    function closeDetailsModal() {
+      orderModal.classList.remove('active');
+    }
+  </script>
+</body>
+</html>

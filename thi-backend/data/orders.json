@@ -1,0 +1,44 @@
+[
+  {
+    "_id": "o_mrec0gtv7qsbd",
+    "customerName": "Nguyen Van A",
+    "customerPhone": "0987654321",
+    "customerAddress": "123 Duong Le Loi, Quan 1, TP. HCM",
+    "totalAmount": 129,
+    "status": "Cancelled",
+    "items": [
+      {
+        "product": "p_mrec0gtvw5w9r",
+        "name": "3D Attractive Pot",
+        "price": 90,
+        "quantity": 1
+      },
+      {
+        "product": "p_mrec0gtv4yudc",
+        "name": "Boho Beard Mug",
+        "price": 39,
+        "quantity": 1
+      }
+    ],
+    "createdAt": "2026-07-10T02:43:56.851Z",
+    "updatedAt": "2026-07-10T02:52:45.391Z"
+  },
+  {
+    "_id": "o_mrecblw1jsyfk",
+    "customerName": "trọng",
+    "customerPhone": "0987654321",
+    "customerAddress": "hsdfufi",
+    "totalAmount": 90,
+    "items": [
+      {
+        "product": "p_mrec0gtvw5w9r",
+        "name": "3D Attractive Pot",
+        "price": 90,
+        "quantity": 1
+      }
+    ],
+    "status": "Completed",
+    "createdAt": "2026-07-10T02:52:36.625Z",
+    "updatedAt": "2026-07-10T02:53:00.413Z"
+  }
+]

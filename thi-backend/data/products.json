@@ -1,0 +1,100 @@
+[
+  {
+    "_id": "p_mrec0gtvufjcq",
+    "name": "trong",
+    "description": "Set of abstract design ceramic pots with folded folds pattern. These handmade pots add an artistic, contemporary touch to any tabletop or windowsill.",
+    "price": 50,
+    "imageUrl": "https://html-demo-orcin.vercel.app/premium/learts/assets/images/product/s328/product-14.webp",
+    "stock": 8,
+    "category": "c_mrec0gtvuwo6j",
+    "badge": "new",
+    "createdAt": "2026-07-10T02:43:56.851Z",
+    "updatedAt": "2026-07-10T06:33:20.261Z"
+  },
+  {
+    "_id": "p_mrec0gtveg9qd",
+    "name": "Adhesive Tape Dispenser",
+    "description": "A premium handmade wooden adhesive tape dispenser, combining high functionality with aesthetic workspace design. Crafted from sustainable oak.",
+    "price": 15,
+    "imageUrl": "https://html-demo-orcin.vercel.app/premium/learts/assets/images/product/s328/product-30.webp",
+    "stock": 25,
+    "category": "c_mrec0gtvtl6fs",
+    "badge": "hot",
+    "createdAt": "2026-07-10T02:43:56.851Z",
+    "updatedAt": "2026-07-10T02:43:56.851Z"
+  },
+  {
+    "_id": "p_mrec0gtv7ja58",
+    "name": "Decorative Christmas Fox",
+    "description": "Adorable hand-knitted decorative fox ornament, perfect for adding warmth to your living room or gifting during the festive winter holidays.",
+    "price": 50,
+    "imageUrl": "https://html-demo-orcin.vercel.app/premium/learts/assets/images/product/s328/product-8.webp",
+    "stock": 12,
+    "category": "c_mrec0gtvtl6fs",
+    "badge": "hot",
+    "createdAt": "2026-07-10T02:43:56.851Z",
+    "updatedAt": "2026-07-10T02:43:56.851Z"
+  },
+  {
+    "_id": "p_mrec0gtvy6uqp",
+    "name": "Clear Silicate Teapot",
+    "description": "Heat-resistant silicate glass teapot, featuring a built-in spiral filter in the spout. Perfect for brewing blooming teas or loose leaf varieties.",
+    "price": 140,
+    "imageUrl": "https://html-demo-orcin.vercel.app/premium/learts/assets/images/product/s328/product-6.webp",
+    "stock": 5,
+    "category": "c_mrec0gtv2ueab",
+    "badge": "none",
+    "createdAt": "2026-07-10T02:43:56.851Z",
+    "updatedAt": "2026-07-10T02:43:56.851Z"
+  },
+  {
+    "_id": "p_mrec0gtv9qdc8",
+    "name": "Bouncer Measuring Cup",
+    "description": "Heavy-duty commercial grade glass measuring cup with standard ounce and milliliter markings. Features a robust handle and easy-pour spout.",
+    "price": 150,
+    "imageUrl": "https://html-demo-orcin.vercel.app/premium/learts/assets/images/product/s328/product-31.webp",
+    "stock": 10,
+    "category": "c_mrec0gtv2ueab",
+    "badge": "new",
+    "createdAt": "2026-07-10T02:43:56.851Z",
+    "updatedAt": "2026-07-10T02:43:56.851Z"
+  },
+  {
+    "_id": "p_mrec0gtv4yudc",
+    "name": "Boho Beard Mug",
+    "description": "Quirky custom handmade ceramic mug styled with a classic mustache and beard imprint. A rustic handle makes it the perfect vessel for hot coffee.",
+    "price": 39,
+    "imageUrl": "https://html-demo-orcin.vercel.app/premium/learts/assets/images/product/s328/product-1.webp",
+    "stock": 21,
+    "category": "c_mrec0gtv2ueab",
+    "badge": "sale",
+    "originalPrice": 45,
+    "createdAt": "2026-07-10T02:43:56.851Z",
+    "updatedAt": "2026-07-10T02:52:45.390Z"
+  },
+  {
+    "_id": "p_mrec0gtvye4o4",
+    "name": "Antique Sewing Scissors",
+    "description": "Vintage-style sewing scissors made from forged carbon steel with ornate handle carvings. Extremely sharp blades optimized for fabric and thread.",
+    "price": 12,
+    "imageUrl": "https://html-demo-orcin.vercel.app/premium/learts/assets/images/product/s328/product-25.webp",
+    "stock": 30,
+    "category": "c_mrec0gtv24o7g",
+    "badge": "sale",
+    "originalPrice": 15,
+    "createdAt": "2026-07-10T02:43:56.851Z",
+    "updatedAt": "2026-07-10T02:43:56.851Z"
+  },
+  {
+    "_id": "p_mrec0gtvieie2",
+    "name": "Cape Cottage Playhouse",
+    "description": "Charming cottage-style play tent for children, decorated with curtains, letters, and windows. Made of organic cotton fabric and sturdy wooden frames.",
+    "price": 35,
+    "imageUrl": "https://html-demo-orcin.vercel.app/premium/learts/assets/images/product/s328/product-12.webp",
+    "stock": 7,
+    "category": "c_mrec0gtvx9opg",
+    "badge": "none",
+    "createdAt": "2026-07-10T02:43:56.851Z",
+    "updatedAt": "2026-07-10T02:43:56.851Z"
+  }
+]

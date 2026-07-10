@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learts Admin - Register</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Route protection script runs before body loads -->
+  <script src="js/auth.js"></script>
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-bg-ornaments">
+      <div class="auth-ornament auth-ornament-1"></div>
+      <div class="auth-ornament auth-ornament-2"></div>
+    </div>
+
+    <div class="auth-card">
+      <div class="auth-header">
+        <h2 class="auth-title">Learts <span>Admin</span></h2>
+        <p class="auth-subtitle">Register a new administrator account</p>
+      </div>
+
+      <!-- Alert Box -->
+      <div id="error-alert" class="alert alert-danger">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span id="alert-text">Registration failed.</span>
+      </div>
+      <div id="success-alert" class="alert alert-success">
+        <i class="fa-solid fa-circle-check"></i>
+        <span>Account registered! Logging in...</span>
+      </div>
+
+      <form id="register-form">
+        <div class="form-group">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" id="username" class="form-control" placeholder="Choose admin username" required autocomplete="username">
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <input type="email" id="email" class="form-control" placeholder="Enter admin email" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" id="password" class="form-control" placeholder="Create password" required autocomplete="new-password">
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          Register <i class="fa-solid fa-user-plus"></i>
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Already have an account? <a href="/admin/login">Sign In instead</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const usernameInput = document.getElementById('username').value.trim();
+      const emailInput = document.getElementById('email').value.trim();
+      const passwordInput = document.getElementById('password').value;
+      const errorAlert = document.getElementById('error-alert');
+      const successAlert = document.getElementById('success-alert');
+      const alertText = document.getElementById('alert-text');
+
+      errorAlert.style.display = 'none';
+      successAlert.style.display = 'none';
+
+      try {
+        const response = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: usernameInput,
+            email: emailInput,
+            password: passwordInput
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          // Success
+          successAlert.style.display = 'flex';
+          localStorage.setItem('adminToken', result.data.token);
+          localStorage.setItem('adminUser', JSON.stringify({
+            id: result.data._id,
+            username: result.data.username,
+            email: result.data.email
+          }));
+
+          setTimeout(() => {
+            window.location.href = '/admin/products';
+          }, 1000);
+        } else {
+          // Failure
+          alertText.textContent = result.message || 'Registration failed.';
+          errorAlert.style.display = 'flex';
+        }
+      } catch (error) {
+        console.error('Registration error:', error);
+        alertText.textContent = 'Failed to connect to the server.';
+        errorAlert.style.display = 'flex';
+      }
+    });
+  </script>
+</body>
+</html>

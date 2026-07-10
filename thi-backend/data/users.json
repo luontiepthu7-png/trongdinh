@@ -1,0 +1,11 @@
+[
+  {
+    "_id": "u_mrec0gtuzuxk0",
+    "username": "admin",
+    "email": "admin@learts.com",
+    "password": "$2a$10$CyfFYNllTrSw51fMDgDT.O0dFIPVodrejAP0bT3cVc9N1cUCB7dwK",
+    "role": "admin",
+    "createdAt": "2026-07-10T02:43:56.850Z",
+    "updatedAt": "2026-07-10T02:43:56.850Z"
+  }
+]

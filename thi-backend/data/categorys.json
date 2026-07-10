@@ -1,0 +1,44 @@
+[
+  {
+    "_id": "c_mrec0gtvuwo6j",
+    "name": "Pots",
+    "description": "Handmade ceramic pots and planters",
+    "createdAt": "2026-07-10T02:43:56.851Z",
+    "updatedAt": "2026-07-10T02:43:56.851Z"
+  },
+  {
+    "_id": "c_mrec0gtvtl6fs",
+    "name": "Home Decor",
+    "description": "Beautiful ornaments and accessories for your home",
+    "createdAt": "2026-07-10T02:43:56.851Z",
+    "updatedAt": "2026-07-10T02:43:56.851Z"
+  },
+  {
+    "_id": "c_mrec0gtvx9opg",
+    "name": "Kids & Babies",
+    "description": "Handcrafted toys and play items for children",
+    "createdAt": "2026-07-10T02:43:56.851Z",
+    "updatedAt": "2026-07-10T02:43:56.851Z"
+  },
+  {
+    "_id": "c_mrec0gtv2ueab",
+    "name": "Kitchen",
+    "description": "Exquisite kitchenware, mugs, and teapots",
+    "createdAt": "2026-07-10T02:43:56.851Z",
+    "updatedAt": "2026-07-10T02:43:56.851Z"
+  },
+  {
+    "_id": "c_mrec0gtv24o7g",
+    "name": "Knitting & Sewing",
+    "description": "Traditional scissors and sewing sets",
+    "createdAt": "2026-07-10T02:43:56.851Z",
+    "updatedAt": "2026-07-10T02:43:56.851Z"
+  },
+  {
+    "_id": "c_mrec0gtvy1f3m",
+    "name": "Toys",
+    "description": "Fun toys for everyone",
+    "createdAt": "2026-07-10T02:43:56.851Z",
+    "updatedAt": "2026-07-10T02:43:56.851Z"
+  }
+]
